@@ -18,6 +18,8 @@ log.txt
 npm-debug.log*
 
 package-lock.json
+www/lib
+www/lib/ionic
 
 /.idea
 /.ionic

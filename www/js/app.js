@@ -55,22 +55,10 @@ angular
       );
 
       BackgroundGeolocation.on("location", function(location) {
-        console.log(location);
+        console.log(location, "my location");
 
         // let URL = "http://192.168.0.110:3000/geo";
 
-        // fetch(URL, {
-        //   method: "POST",
-        //   body: JSON.stringify({
-        //     title: "rafael",
-        //     userId: 1
-        //   }),
-        //   headers: {
-        //     "Content-type": "application/json; charset=UTF-8"
-        //   }
-        // })
-        //   .then(response => response.json())
-        //   .then(json => console.log(json));
         // handle your locations here
         // to perform long running operation on iOS
         // you need to create background task
@@ -130,9 +118,27 @@ angular
         // );
         setInterval(() => {
           // console.log("background called configure", BackgroundGeolocation);
-          BackgroundGeolocation.getCurrentLocation(onSuccess =>
-            console.log(onSuccess.latitude, onSuccess.longitude, "here")
-          );
+          BackgroundGeolocation.getCurrentLocation(onSuccess => {
+            console.log(onSuccess.latitude, onSuccess.longitude, "here");
+
+            let URL =
+              "https://3000-efce0cf5-bd79-45d4-841e-c88648fc2640.ws-us02.gitpod.io/geo";
+
+            fetch(URL, {
+              method: "POST",
+              body: JSON.stringify({
+                lat: onSuccess.latitude,
+                lon: onSuccess.longitude
+              }),
+              headers: {
+                "Content-type": "application/json; charset=UTF-8"
+              }
+            })
+              .then(response => response.json())
+              .then(json => console.log(json, "response"));
+          });
+
+          // here
           //BackgroundGeolocation.configure({ debug: true });
         }, 60000);
       });
